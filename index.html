@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Above the Lines · Learn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --mid-0:#060a24; --mid-1:#0b1238; --mid-2:#111a4b; --mid-3:#1c2763; --mid-4:#2a3780;
+  --electric:#1f8bff; --electric-2:#4cc3ff; --electric-soft:rgba(31,139,255,.16);
+  --orange:#ff8a1f; --orange-2:#ffb15c; --orange-soft:rgba(255,138,31,.16);
+  --text:#eef2ff; --muted:#9aa6d6; --dim:#6772a8;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html{background:var(--mid-0)}
+html,body{margin:0;min-height:100vh}
+body{
+  font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);
+  background:radial-gradient(1200px 600px at 10% -10%,rgba(31,139,255,.18),transparent 60%),
+             radial-gradient(900px 500px at 110% 10%,rgba(255,138,31,.10),transparent 60%),
+             linear-gradient(180deg,var(--mid-1),var(--mid-0));
+  background-attachment:fixed;
+}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:880px;margin:0 auto;padding:24px 20px 64px}
+header.top{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--electric),var(--electric-2));font-family:'Space Grotesk';font-weight:700;color:#04102e;font-size:18px;
+  box-shadow:0 0 24px rgba(31,139,255,.45)}
+.top h1{font-family:'Space Grotesk';font-size:22px;margin:0;letter-spacing:.2px}
+.top .sub{color:var(--muted);font-size:13px;margin-top:2px}
+.spacer{flex:1}
+.btn{border:1px solid var(--mid-4);background:var(--mid-2);color:var(--text);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;transition:.15s}
+.btn:hover{border-color:var(--electric);background:var(--mid-3)}
+.btn.primary{background:linear-gradient(135deg,var(--electric),#1468e0);border-color:transparent;color:#fff;box-shadow:0 6px 20px rgba(31,139,255,.35)}
+.btn.primary:hover{filter:brightness(1.1)}
+.btn.orange{background:linear-gradient(135deg,var(--orange),#f06a00);border-color:transparent;color:#1a0b00}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn.ghost:hover{color:var(--text);background:var(--mid-2)}
+.btn.small{padding:7px 12px;font-size:13px}
+
+/* Home */
+.hero{background:linear-gradient(135deg,var(--mid-2),var(--mid-3));border:1px solid var(--mid-4);border-radius:20px;padding:22px;margin-bottom:22px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.hero .big{font-family:'Space Grotesk';font-size:40px;font-weight:700;line-height:1;color:var(--electric-2)}
+.hero .lbl{color:var(--muted);font-size:13px;margin-top:4px}
+.hero .bar{flex:1;min-width:200px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.set{position:relative;text-align:left;background:var(--mid-2);border:1px solid var(--mid-3);border-radius:var(--radius);padding:18px;color:var(--text);transition:.18s;overflow:hidden}
+.set:hover{transform:translateY(-2px);border-color:var(--electric);box-shadow:0 10px 30px rgba(31,139,255,.18)}
+.set .ord{font-family:'Space Grotesk';font-size:13px;color:var(--orange);font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+.set h3{margin:6px 0 4px;font-size:20px;font-family:'Space Grotesk'}
+.set .meta{color:var(--muted);font-size:13px;margin-bottom:14px}
+.set.all{background:linear-gradient(135deg,#13205e,#0f1846);border-color:var(--electric)}
+.set .badge{position:absolute;top:14px;right:14px;font-size:11px;font-weight:700;padding:4px 8px;border-radius:99px;background:var(--orange-soft);color:var(--orange-2)}
+.set .badge.done{background:var(--electric-soft);color:var(--electric-2)}
+.pbar{height:8px;border-radius:99px;background:var(--mid-0);overflow:hidden;display:flex}
+.pbar i{display:block;height:100%}
+.pbar .m{background:linear-gradient(90deg,var(--electric),var(--electric-2))}
+.pbar .l{background:var(--orange)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.legend span::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle;background:var(--dim)}
+.legend .lm::before{background:var(--electric-2)} .legend .ll::before{background:var(--orange)}
+.foot{margin-top:28px;display:flex;justify-content:space-between;align-items:center;color:var(--dim);font-size:12px;gap:12px;flex-wrap:wrap}
+
+/* Learn */
+.lhead{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.lhead .title{font-family:'Space Grotesk';font-weight:700;font-size:18px}
+.lhead .round{color:var(--orange);font-size:13px;font-weight:600}
+.tabs{display:flex;background:var(--mid-2);border:1px solid var(--mid-3);border-radius:12px;padding:3px}
+.tabs button{border:0;background:transparent;color:var(--muted);padding:7px 12px;border-radius:9px;font-weight:600;font-size:13px}
+.tabs button.on{background:var(--mid-4);color:var(--text)}
+.progressrow{margin-bottom:18px}
+.progressrow .counts{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
+.segs{display:flex;gap:4px}
+.segs i{flex:1;height:6px;border-radius:4px;background:var(--mid-3)}
+.segs i.ok{background:var(--electric-2)} .segs i.bad{background:var(--orange)} .segs i.cur{background:var(--mid-4);box-shadow:0 0 0 1px var(--electric) inset}
+
+.card{background:linear-gradient(180deg,var(--mid-2),#0e1642);border:1px solid var(--mid-3);border-radius:22px;padding:26px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.qtop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
+.qnum{font-family:'Space Grotesk';font-weight:700;font-size:84px;line-height:.9;
+  background:linear-gradient(135deg,#fff,var(--electric-2) 60%,var(--electric));-webkit-background-clip:text;background-clip:text;color:transparent}
+.qnum small{display:block;white-space:nowrap;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange);-webkit-text-fill-color:var(--orange);margin-bottom:8px;font-family:Inter;font-weight:700}
+.qhint{color:var(--muted);font-size:13px;text-align:right}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.wide{grid-column:1/-1}
+.field label{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.field label .k{font-family:'Space Grotesk';color:var(--electric-2)}
+.field input{width:100%;background:var(--mid-0);border:2px solid var(--mid-3);color:var(--text);border-radius:12px;padding:13px 14px;font-size:16px;font-family:inherit;outline:none;transition:.15s}
+.field input:focus{border-color:var(--electric);box-shadow:0 0 0 4px rgba(31,139,255,.18)}
+.field input:disabled{opacity:1;color:var(--text);-webkit-text-fill-color:var(--text)}
+.field.blank input:disabled{opacity:.55}
+.field input::placeholder{color:var(--dim)}
+.field.ok input{border-color:var(--electric-2);background:rgba(76,195,255,.08)}
+.field.bad input{border-color:var(--orange);background:rgba(255,138,31,.08);text-decoration:line-through;text-decoration-color:rgba(255,138,31,.6)}
+.field.close input{border-color:var(--orange-2);background:rgba(255,177,92,.08)}
+.field.blank input{border-style:dashed}
+.verdict{font-size:13px;display:flex;gap:6px;align-items:flex-start;line-height:1.35}
+.verdict b{font-weight:700}
+.ok .verdict{color:var(--electric-2)}
+.bad .verdict,.close .verdict{color:var(--orange-2)}
+.verdict .ans{color:var(--text);font-weight:600}
+.actions{display:flex;gap:10px;margin-top:22px;align-items:center;flex-wrap:wrap}
+.kbd{font-size:12px;color:var(--dim);margin-left:auto}
+.kbd kbd{background:var(--mid-3);border:1px solid var(--mid-4);border-bottom-width:2px;border-radius:6px;padding:1px 6px;font-family:inherit;color:var(--muted)}
+.result{margin-top:20px;border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+.result.good{background:var(--electric-soft);border:1px solid rgba(76,195,255,.4)}
+.result.miss{background:var(--orange-soft);border:1px solid rgba(255,138,31,.4)}
+.result .ic{font-size:22px}
+.result .t{font-weight:700}
+.result .s{font-size:13px;color:var(--muted)}
+.extras{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12px;padding:6px 10px;border-radius:99px;border:1px solid var(--mid-4);background:var(--mid-1);color:var(--muted)}
+.chip b{color:var(--text);font-weight:600}
+.chip.o{border-color:rgba(255,138,31,.5);color:var(--orange-2)}
+.chip.o b{color:var(--orange-2)}
+
+/* summary */
+.sum h2{font-family:'Space Grotesk';margin:0 0 6px;font-size:26px}
+.sum p{color:var(--muted);margin:0 0 18px}
+.list{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.row{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;background:var(--mid-1);border:1px solid var(--mid-3);border-radius:12px;padding:10px 14px}
+.row .n{font-family:'Space Grotesk';font-weight:700;font-size:20px;color:var(--electric-2)}
+.row .nm{font-weight:600}
+.row .sm{font-size:12px;color:var(--muted)}
+.lvl{font-size:11px;font-weight:700;padding:4px 8px;border-radius:99px}
+.lvl.m{background:var(--electric-soft);color:var(--electric-2)}
+.lvl.l{background:var(--orange-soft);color:var(--orange-2)}
+.lvl.n{background:var(--mid-3);color:var(--muted)}
+
+/* review table */
+.rev{display:flex;flex-direction:column;gap:10px}
+.rcard{display:grid;grid-template-columns:56px 1fr;gap:14px;background:var(--mid-2);border:1px solid var(--mid-3);border-radius:14px;padding:14px 16px}
+.rcard .n{font-family:'Space Grotesk';font-weight:700;font-size:30px;color:var(--electric-2);line-height:1}
+.rcard .nm{font-weight:700;font-size:16px;margin-bottom:4px}
+.rcard .ln{font-size:14px;color:#c9d2f5;line-height:1.45}
+.rcard .ln span{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.8px;margin-right:6px}
+s{text-decoration-color:var(--orange);text-decoration-thickness:2px}
+.toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none}
+.toggle input{accent-color:var(--orange);width:16px;height:16px}
+
+.modal{position:fixed;inset:0;background:rgba(3,6,20,.7);display:grid;place-items:center;padding:20px;z-index:50}
+.modal .box{background:var(--mid-2);border:1px solid var(--mid-4);border-radius:18px;padding:22px;max-width:380px;width:100%}
+.modal h3{margin:0 0 8px;font-family:'Space Grotesk'}
+.modal p{color:var(--muted);margin:0 0 18px;font-size:14px}
+.confetti{font-size:56px;line-height:1;margin-bottom:8px}
+@media (max-width:620px){
+  .fields{grid-template-columns:1fr}
+  .qnum{font-size:68px}
+  .kbd{display:none}
+  .wrap{padding:18px 14px 48px}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div id="modal"></div>
+
+<script>
+const SETS = [{"label": "First 10", "entries": [{"lines": [{"t": "name", "a": "Owen Alexander Seibold"}, {"t": "major", "a": "5th year Industrial and Systems Engineering, Concentration in Analytics and Data Science, Minor in Mathematics, 3 internships"}, {"t": "home", "a": "Hopewell Valley/Princeton, NJ"}, {"t": "title", "a": "Fall 2022 Honor Pledge"}, {"t": "ga", "a": "2293"}]}, {"lines": [{"t": "name", "a": "Calvin Peter DiPrete"}, {"t": "major", "a": "5th year Computer Science"}, {"t": "home", "a": "Evans, GA"}, {"t": "ga", "a": "2299"}]}, {"lines": [{"t": "name", "a": "Michael Louis Mangione"}, {"t": "major", "a": "4.5th year Mechanical Engineering, Minor in Biomedical Engineering"}, {"t": "home", "a": "Valhalla / Mt. Pleasant, NY"}, {"t": "ga", "a": "2300"}]}, {"lines": [{"t": "name", "a": "Robert Hayes Price"}, {"t": "major", "a": "5th year Construction Science and Management T&M Minor"}, {"t": "home", "a": "Atlanta, GA"}, {"t": "ga", "a": "2306"}]}, {"lines": [{"t": "name", "a": "Sandon Patrick Brown"}, {"t": "major", "a": "5th year Graduating Super Senior Mechanical Engineering Denning T&M Minor in Business and Engineering, FYSA"}, {"t": "home", "a": "Greenville, SC"}, {"t": "ga", "a": "2308"}]}, {"lines": [{"t": "name", "a": "Ser Pedro Ititaro Rodelli Kawamura"}, {"t": "major", "a": "5th year Industrial Engineering, Minor in CS and Math, FYSA"}, {"t": "home", "a": "Orlando, FL / São Paulo, Brasil"}, {"t": "ga", "a": "2310"}]}, {"lines": [{"t": "name", "a": "Bailey Gilbert"}, {"t": "major", "a": "5th year Industrial Design"}, {"t": "home", "a": "ATLannuh, Gawjia"}, {"t": "ga", "a": "2311"}]}, {"lines": [{"t": "name", "a": "Greyson Scott McReynolds"}, {"t": "major", "a": "2nd Semester Master’s in Computer Science"}, {"t": "home", "a": "Cumming, GA"}, {"t": "title", "a": "Fall 2023 Honor Pledge"}, {"t": "ga", "a": "2314"}], "atl": "Jersey G"}, {"lines": [{"t": "name", "a": "Tyler Stephens"}, {"t": "major", "a": "4th year Industrial and Systems Engineering"}, {"t": "home", "a": "Wyckoff, NJ"}, {"t": "ga", "a": "2316"}]}, {"lines": [{"t": "name", "a": "Eli Johnson"}, {"t": "major", "a": "4th year EE"}, {"t": "home", "a": "Libertyville, IL"}, {"t": "ga", "a": "2317"}]}]}, {"label": "Second 10", "entries": [{"lines": [{"t": "name", "a": "Lucas Guarenti Zangari"}, {"t": "major", "a": "5th year HCI BS/MS BS CS Info-Internetworks & Intelligence", "s": ["HCI BS/MS"]}, {"t": "home", "a": "St. Louis, MO / Braselton, GA"}, {"t": "ga", "a": "2318"}], "atl": "LZ"}, {"lines": [{"t": "name", "a": "Ben Cl"}]}, {"lines": [{"t": "name", "a": "Jake Harrison Caravano"}, {"t": "major", "a": "4th year Mechanical Engineering, Concentration in Design"}, {"t": "home", "a": "Stony Point, NY"}, {"t": "title", "a": "Fall 2023 Super Pledge"}, {"t": "ga", "a": "2320"}]}, {"lines": [{"t": "name", "a": "Ryan Menghi"}, {"t": "major", "a": "4th year Industrial Engineering"}, {"t": "home", "a": "Long Island, NY"}, {"t": "ga", "a": "2322"}]}, {"lines": [{"t": "name", "a": "Charles Betts Holloway IV"}, {"t": "major", "a": "4th year Industrial Engineering, Minor in History"}, {"t": "home", "a": "Marietta, GA"}, {"t": "ga", "a": "2323"}]}, {"lines": [{"t": "name", "a": "Ser Mickey Liu"}, {"t": "major", "a": "5th year Business Finance"}, {"t": "home", "a": "Greenville, SC"}, {"t": "ga", "a": "2326"}]}, {"lines": [{"t": "name", "a": "Brandon Brigner"}, {"t": "major", "a": "4th year MS Chemistry"}, {"t": "home", "a": "DMV"}, {"t": "ga", "a": "2327"}]}, {"lines": [{"t": "name", "a": "Ser Chase Andrew Renick"}, {"t": "major", "a": "5th year BS in Mathematics, Concentration in Probability and Statistics, MS in Quantitative and Computational Finance"}, {"t": "home", "a": "Murray, KY (population 18,964)"}, {"t": "title", "a": "Fall 2023 Omega Man"}, {"t": "ga", "a": "2328"}]}, {"lines": [{"t": "name", "a": "Cameron David Jackson"}, {"t": "major", "a": "4th year Robotics"}, {"t": "home", "a": "Southborough, MA"}, {"t": "title", "a": "Spring 2024 Honor Pledge"}, {"t": "ga", "a": "2329"}]}, {"lines": [{"t": "name", "a": "Henry John Poulin"}, {"t": "major", "a": "4th year Computer Engineering"}, {"t": "home", "a": "Bangor, ME"}, {"t": "title", "a": "Spring 2024 Best Pledge"}, {"t": "ga", "a": "2330"}]}]}, {"label": "Third 10", "entries": [{"lines": [{"t": "name", "a": "Pablo Alvarez Barboza"}, {"t": "major", "a": "5th year Computer Science, Minor in Psychology"}, {"t": "home", "a": "Liberia, Guanacaste, Costa Rica"}, {"t": "ga", "a": "2331"}]}, {"lines": [{"t": "name", "a": "Randy Cho"}, {"t": "major", "a": "4th year Computer Science"}, {"t": "home", "a": "G-Block, SC"}, {"t": "ga", "a": "2332"}]}, {"lines": [{"t": "name", "a": "Zachary Harris Keschner"}, {"t": "major", "a": "4th year Mathematics and Computer Science"}, {"t": "home", "a": "Syosset, NY"}, {"t": "ga", "a": "2333"}]}, {"lines": [{"t": "name", "a": "Aidan Jeffrey Riker"}, {"t": "major", "a": "5th year Computer Science"}, {"t": "home", "a": "Hamburg, NY"}, {"t": "ga", "a": "2334"}]}, {"lines": [{"t": "name", "a": "Andrew Belli"}]}, {"lines": [{"t": "name", "a": "Troy Emery Wilson"}, {"t": "major", "a": "5th year Chemical and Biomolecular Engineering"}, {"t": "home", "a": "Grayson, GA"}, {"t": "ga", "a": "2336"}], "atl": "Troy Boy"}, {"lines": [{"t": "name", "a": "Ilkin Mammadli Parviz Oglu"}, {"t": "major", "a": "5th Year BS/MS in Computer Science, Threads in Media and Intelligence"}, {"t": "home", "a": "White City, Azerbaijan"}, {"t": "title", "a": "Azeri Pledge #3"}, {"t": "ga", "a": "2337"}]}, {"lines": [{"t": "name", "a": "Bradley Alan Marshburn"}, {"t": "major", "a": "3rd year Mechanical Engineering"}, {"t": "home", "a": "Bainbridge, GA"}, {"t": "title", "a": "Fall 2024 Honor Pledge"}, {"t": "ga", "a": "2338"}]}, {"lines": [{"t": "name", "a": "Wyatt Tan"}, {"t": "major", "a": "3rd year Industrial Engineering, Concentration in Operations Research"}, {"t": "home", "a": "Brooklyn, NY"}, {"t": "title", "a": "Fall 2024 Best Pledge"}, {"t": "ga", "a": "2339"}]}, {"lines": [{"t": "name", "a": "Nikhil Nishad Chikhliker"}, {"t": "major", "a": "3rd year Economics and Mathematics"}, {"t": "home", "a": "Peachtree City, GA"}, {"t": "ga", "a": "2340"}]}]}, {"label": "Fourth 10", "entries": [{"lines": [{"t": "name", "a": "Kieran Kelly"}, {"t": "major", "a": "3rd year Public Policy Major, Minor in Economics"}, {"t": "home", "a": "Carrollton, GA"}, {"t": "ga", "a": "2341"}], "atl": "KBK"}, {"lines": [{"t": "name", "a": "Matthew Stephen Suchocki Shayne"}, {"t": "major", "a": "3rd year Mechanical Engineering"}, {"t": "home", "a": "Hampden, ME"}, {"t": "ga", "a": "2342"}, {"t": "title", "a": "Fall 2024 Anal Pledge"}], "atl": "Matt Shayne"}, {"lines": [{"t": "name", "a": "Maximus Hunt Stetter"}, {"t": "major", "a": "3rd year Aerospace Engineering, 1 Co-Op"}, {"t": "home", "a": "Dunwoody, GA"}, {"t": "ga", "a": "2343"}]}, {"lines": [{"t": "name", "a": "Lucas from Miami"}, {"t": "major", "a": "3rd year Coloring & Eating Play-Doh"}, {"t": "ga", "a": "2344"}]}, {"lines": [{"t": "name", "a": "Dominic Slovisky"}, {"t": "major", "a": "3rd year Environmental Engineering"}, {"t": "home", "a": "Suburbs of Woodstock, GA"}, {"t": "ga", "a": "2345"}]}, {"lines": [{"t": "name", "a": "Samuel Luke Bueno"}, {"t": "major", "a": "3rd year Biomedical Engineering, Pre-Med"}, {"t": "home", "a": "Savannah, GA"}, {"t": "title", "a": "Fall 2024 Super Pledge"}, {"t": "ga", "a": "2346"}]}, {"lines": [{"t": "name", "a": "Jayson Lior Faupel"}, {"t": "major", "a": "3rd year BSMT ECE Concentration"}, {"t": "home", "a": "Roswell, GA"}, {"t": "ga", "a": "2347"}]}, {"lines": [{"t": "name", "a": "John Ryan Halligan"}, {"t": "major", "a": "3rd year Business ITM, Denning T&M CS minor"}, {"t": "home", "a": "Dunwoody, GA"}, {"t": "ga", "a": "2348"}]}, {"lines": [{"t": "name", "a": "Connor Barath"}, {"t": "major", "a": "3rd year Mechanical Engineering"}, {"t": "home", "a": "Merrick, NY"}, {"t": "ga", "a": "2349"}]}, {"lines": [{"t": "name", "a": "Nathan Edward DeLuryea"}, {"t": "major", "a": "3rd year Stellar at Scheller, Denning T&M"}, {"t": "home", "a": "Marietta, GA"}, {"t": "ga", "a": "2350"}]}]}, {"label": "Fifth 10", "entries": [{"lines": [{"t": "name", "a": "Gael Albarran"}, {"t": "major", "a": "3rd year Computer Science"}, {"t": "home", "a": "Hartwell, GA"}, {"t": "ga", "a": "2351"}]}, {"lines": [{"t": "name", "a": "Cole Williams"}, {"t": "major", "a": "3rd year Industrial Engineering"}, {"t": "home", "a": "Alpharetta, GA"}, {"t": "ga", "a": "2352"}]}, {"lines": [{"t": "name", "a": "Noah Gonzalo Ocampo"}, {"t": "major", "a": "3rd year PPE: hardhats, safety vests, and gloves required at all times while on site"}, {"t": "home", "a": "500 miles"}, {"t": "ga", "a": "2353"}]}, {"lines": [{"t": "name", "a": "Jai Ronen Arieh"}, {"t": "major", "a": "3rd year Houses and Businesses"}, {"t": "home", "a": "Atlanta, GA"}, {"t": "ga", "a": "2354"}]}, {"lines": [{"t": "name", "a": "Oliver Thor Sugino Begali"}, {"t": "major", "a": "3rd year Computer Engineering"}, {"t": "home", "a": "São Paulo, Brazil / Santiago, Chile / Milton, GA"}, {"t": "ga", "a": "2355"}]}, {"lines": [{"t": "name", "a": "Tyler James Robert Sleep"}, {"t": "major", "a": "3rd year Industrial Engineering, Minor in Archeology"}, {"t": "home", "a": "Dunwoody, GA"}, {"t": "ga", "a": "2356"}], "atl": "SLEEEEP"}, {"lines": [{"t": "name", "a": "Elijah Andrey Paltarak"}, {"t": "major", "a": "3rd Year Business Administration, Finance Concentration"}, {"t": "home", "a": "Sandy Springs, GA"}, {"t": "ga", "a": "2358"}]}, {"lines": [{"t": "name", "a": "Admiral Robert Anson Anopolsky"}, {"t": "major", "a": "4th year Aerospace Engineering Transfer, 2 Internships"}, {"t": "home", "a": "Bethesda, MD"}, {"t": "ga", "a": "2359"}]}, {"lines": [{"t": "name", "a": "Youso Lee"}, {"t": "major", "a": "4th year CompE"}, {"t": "home", "a": "Long Island, NY"}, {"t": "ga", "a": "2360"}]}, {"lines": [{"t": "name", "a": "Evan Sigman"}, {"t": "major", "a": "3rd year Electrical Engineering"}, {"t": "home", "a": "BAINBRIDGE"}, {"t": "ga", "a": "2361"}]}]}, {"label": "Sixth 10", "entries": [{"lines": [{"t": "name", "a": "Nathan Taylor Davis II"}, {"t": "major", "a": "3rd year Biomedical Engineering, Pre-Med"}, {"t": "home", "a": "Houston, TX"}, {"t": "ga", "a": "2362"}]}, {"lines": [{"t": "name", "a": "Kevin Michael Dunne"}, {"t": "major", "a": "3rd year Aerospace Engineering"}, {"t": "home", "a": "Peachtree City, GA"}, {"t": "title", "a": "Fall 2024 Shit Pledge"}, {"t": "ga", "a": "2364"}]}, {"lines": [{"t": "name", "a": "Remington Robert Bianchi"}, {"t": "major", "a": "3rd year Chemical & Biomolecular Engineering, Minor in Economics"}, {"t": "home", "a": "Frederick, MD"}, {"t": "title", "a": "Fall 2024 Omega Man"}, {"t": "ga", "a": "2365"}]}, {"lines": [{"t": "name", "a": "Drew Johnson"}, {"t": "major", "a": "3rd year BME"}, {"t": "home", "a": "Carrollton, GA"}, {"t": "title", "a": "Spring 2025 Honor Pledge"}, {"t": "ga", "a": "2366"}], "atl": "Deej"}, {"lines": [{"t": "name", "a": "Cambron William Berry"}, {"t": "major", "a": "3rd year Wlectrical Engineering"}, {"t": "home", "a": "Newnan, GA"}, {"t": "ga", "a": "2367"}]}, {"lines": [{"t": "name", "a": "Andrew Powers Best"}, {"t": "major", "a": "3rd year Finance Pipeline"}, {"t": "home", "a": "Blue Ridge Mountains"}, {"t": "ga", "a": "2368"}]}, {"lines": [{"t": "name", "a": "Emmett Somers"}, {"t": "major", "a": "3rd year Mechanical Engineering"}, {"t": "home", "a": "North Canton, OHIO"}, {"t": "ga", "a": "2369"}]}, {"lines": [{"t": "name", "a": "Alec Covarrubias"}, {"t": "major", "a": "3rd year Aerospace Engineering"}, {"t": "home", "a": "Concord, NC"}, {"t": "ga", "a": "2370"}]}, {"lines": [{"t": "name", "a": "Chris Fornasiero"}, {"t": "major", "a": "3rd year BMED"}, {"t": "home", "a": "Atlanta, GA"}, {"t": "ga", "a": "2371"}]}, {"lines": [{"t": "name", "a": "Arnav Mishra"}, {"t": "major", "a": "3rd year Computer Engineering, Minor in Applications of Artificial Intelligence and Machine Learning"}, {"t": "home", "a": "Chandler, AZ (pecos and mcqueen)"}, {"t": "title", "a": "Spring 2025 Shit Pledge"}, {"t": "ga", "a": "2373"}]}]}, {"label": "Seventh 10", "entries": [{"lines": [{"t": "name", "a": "Noah Musibay"}, {"t": "major", "a": "2nd year Mechanical Engineering"}, {"t": "home", "a": "Miami, FL"}, {"t": "title", "a": "Fall 2025 Best Pledge"}, {"t": "ga", "a": "2374"}]}, {"lines": [{"t": "name", "a": "Preston Emmett Barnett"}, {"t": "major", "a": "2nd year Aerospace Engineering"}, {"t": "home", "a": "Bainbridge, GA"}, {"t": "ga", "a": "2375"}]}, {"lines": [{"t": "name", "a": "Luke Slatt"}, {"t": "major", "a": "2nd year Finance"}, {"t": "home", "a": "Orlando, FL"}, {"t": "ga", "a": "2376"}], "atl": "Slatt"}, {"lines": [{"t": "name", "a": "Brennen Michael Finch"}, {"t": "major", "a": "2nd year ME ESYS"}, {"t": "home", "a": "Powder Springs, GA"}, {"t": "ga", "a": "2377"}]}, {"lines": [{"t": "name", "a": "JP Bierman"}, {"t": "major", "a": "2nd year History and Spanish"}, {"t": "home", "a": "Peachtree City, GA"}, {"t": "ga", "a": "2378"}, {"t": "title", "a": "Fall 2025 Anal Pledge"}]}, {"lines": [{"t": "name", "a": "Pierce Henry"}, {"t": "major", "a": "2nd year Civil Engineering"}, {"t": "home", "a": "Austin, TX"}, {"t": "ga", "a": "2379"}], "atl": "Pierce"}, {"lines": [{"t": "name", "a": "Boon"}, {"t": "major", "a": "2nd year Mechanical Engineering"}, {"t": "home", "a": "Stillwater, MN"}, {"t": "ga", "a": "2380"}]}, {"lines": [{"t": "name", "a": "Mason-Edward Johnson"}, {"t": "major", "a": "2nd year Biomedical Engineering"}, {"t": "home", "a": "Albany, GA"}, {"t": "ga", "a": "2381"}]}, {"lines": [{"t": "name", "a": "Mac O’Leary"}, {"t": "major", "a": "2nd year Aerospace Engineering"}, {"t": "home", "a": "Albany, NY"}, {"t": "ga", "a": "2382"}]}, {"lines": [{"t": "name", "a": "Sean"}, {"t": "major", "a": "2nd year Nukes"}, {"t": "home", "a": "Chiraq, IL"}, {"t": "ga", "a": "2383"}], "atl": "Half-Blood Chink"}]}, {"label": "Eighth 10", "entries": [{"lines": [{"t": "name", "a": "Ben Gotlieb"}, {"t": "major", "a": "2nd year Math"}, {"t": "home", "a": "Portsmouth, NH"}, {"t": "ga", "a": "2384"}]}, {"lines": [{"t": "name", "a": "Kaden Korn"}, {"t": "major", "a": "2nd year Mechanical Engineering"}, {"t": "home", "a": "Peachtree City, GA"}, {"t": "ga", "a": "2385"}]}, {"lines": [{"t": "name", "a": "Jodom"}, {"t": "major", "a": "2nd year PubP"}, {"t": "home", "a": "Peachtree City, GA"}, {"t": "ga", "a": "2386"}]}, {"lines": [{"t": "name", "a": "Simon Hogan"}, {"t": "major", "a": "2nd year Civil Engineering"}, {"t": "home", "a": "Athens, GA"}, {"t": "ga", "a": "2387"}]}, {"lines": [{"t": "name", "a": "Tate Douglas O'Leary"}, {"t": "major", "a": "2nd year Mechanical Engineering"}, {"t": "home", "a": "Atlanta, GA"}, {"t": "ga", "a": "2388"}]}, {"lines": [{"t": "name", "a": "Pranit Mishra"}, {"t": "major", "a": "2nd year Industrial Engineering"}, {"t": "home", "a": "Cumming, GA"}, {"t": "ga", "a": "2389"}]}, {"lines": [{"t": "name", "a": "Cohen Sisler"}, {"t": "major", "a": "2nd year ME"}, {"t": "home", "a": "Newnan, GA"}, {"t": "ga", "a": "2390"}]}, {"lines": [{"t": "name", "a": "Andrew Ender Deniz"}, {"t": "major", "a": "2nd year Electrical Engineering"}, {"t": "home", "a": "Cape Elizabeth, ME"}, {"t": "ga", "a": "2391"}]}, {"lines": [{"t": "name", "a": "John Tiller Williams"}, {"t": "major", "a": "2nd year Aerospace Engineering, Minor in Naval Science"}, {"t": "home", "a": "Fuckhead, GA"}, {"t": "ga", "a": "2392"}]}, {"lines": [{"t": "name", "a": "Rishi Patel"}, {"t": "major", "a": "2nd year Math and Physics"}, {"t": "home", "a": "Philly, PA"}, {"t": "ga", "a": "2393"}]}]}, {"label": "Ninth 10", "entries": [{"lines": [{"t": "name", "a": "Miquel Alomar"}, {"t": "major", "a": "2nd year Biomedical Engineering"}, {"t": "home", "a": "Charleston, SC"}, {"t": "ga", "a": "2394"}]}, {"lines": [{"t": "name", "a": "Adam"}], "note": "WHEN CALLED UP, SAY MASON’S ABOVE THE LINE"}, {"lines": [{"t": "name", "a": "Finn Moynahan"}, {"t": "major", "a": "3 years of D"}, {"t": "home", "a": "Fairfield, CT"}, {"t": "title", "a": "Fall 2025 Omega Man"}, {"t": "ga", "a": "2396"}]}, {"lines": [{"t": "name", "a": "Stephen Neil Leach"}, {"t": "major", "a": "2nd year Biochemistry, Pre-Med"}, {"t": "home", "a": "Macon, GA"}, {"t": "title", "a": "Fall 2025 Honor Pledge"}, {"t": "ga", "a": "2397"}]}, {"lines": [{"t": "name", "a": "Aiden Christopher McDonald"}, {"t": "major", "a": "3rd year Video Games"}, {"t": "home", "a": "Murderetta, GA"}, {"t": "title", "a": "Fall 2025 Super Pledge"}, {"t": "ga", "a": "2398"}]}, {"lines": [{"t": "name", "a": "Joseph Warren Skidmore"}, {"t": "major", "a": "2nd year Chemical and Biomolecular Engineering"}, {"t": "home", "a": "Virginia Beach, VA"}, {"t": "ga", "a": "2399"}]}, {"lines": [{"t": "name", "a": "Luke Abhishai Puttnam"}, {"t": "major", "a": "2nd year Industrial Engineering"}, {"t": "home", "a": "Johns Creek, GA"}, {"t": "ga", "a": "2400"}]}, {"lines": [{"t": "name", "a": "Jonathan Cheng"}, {"t": "major", "a": "2nd year CS"}, {"t": "home", "a": "O Block, IL"}, {"t": "ga", "a": "2401"}]}, {"lines": [{"t": "name", "a": "Michael"}]}, {"lines": [{"t": "name", "a": "Caden Bryans"}, {"t": "major", "a": "2nd year Biology, Pre-Med"}, {"t": "home", "a": "Columbus, GA"}, {"t": "ga", "a": "2403"}]}, {"lines": [{"t": "name", "a": "Branden Beladi"}, {"t": "major", "a": "3rd year Computer Engineering"}, {"t": "home", "a": "Dallas, TX"}, {"t": "ga", "a": "2404"}]}]}];
+SETS.forEach(st=>st.entries.forEach(e=>{ e.name = e.lines[0].a; }));
+const ORD = ['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'];
+const META = {
+  name: {label:'Name',         ph:'Full name'},
+  major:{label:'Year & Major', ph:'e.g. 3rd year Mechanical Engineering'},
+  home: {label:'Hometown',     ph:'City, State'},
+  title:{label:'Title',        ph:'e.g. Fall 2024 Honor Pledge'},
+  ga:   {label:'ΓΑ Number',    ph:'e.g. 2341'}
+};
+/* One box per line in the doc, in doc order */
+function fieldsFor(e){
+  const nTitles = e.lines.filter(l=>l.t==='title').length; let tk=0;
+  const f = e.lines.map((l,idx)=>{
+    let label = META[l.t].label;
+    if(l.t==='title' && nTitles>1) label += ' '+(++tk);
+    return {key:'f'+idx, type:l.t, label, ph:META[l.t].ph, answer:l.a, strike:l.s||[], wide:(l.t==='name'||l.t==='major')};
+  });
+  const small = f.filter(x=>!x.wide);
+  if(small.length%2===1) small[small.length-1].wide = true;
+  return f;
+}
+function answerHTML(fd){
+  let h = esc(fd.answer);
+  (fd.strike||[]).forEach(s=>{ const es=esc(s); h = h.replace(es, `<s title="crossed out in the doc">${es}</s>`); });
+  return h;
+}
+const STORE_KEY = 'atl-learn-v1';
+
+/* ---------- persistence ---------- */
+let prog = {}, prefs = {order:'order', strict:false};
+try{ const raw = localStorage.getItem(STORE_KEY); if(raw){ const o = JSON.parse(raw); prog = o.prog||{}; prefs = Object.assign(prefs, o.prefs||{}); } }catch(e){}
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify({prog, prefs})); }catch(e){} }
+function pid(s,i){ return s+'-'+i; }
+function level(s,i){ return (prog[pid(s,i)]||{}).lv||0; }
+function seen(s,i){ return !!(prog[pid(s,i)]||{}).seen; }
+function setLevel(s,i,lv){ prog[pid(s,i)] = {lv, seen:true}; save(); }
+function setStats(s){
+  const n = SETS[s].entries.length; let m=0,l=0;
+  for(let i=0;i<n;i++){ const lv=level(s,i); if(lv>=2) m++; else if(seen(s,i)) l++; }
+  return {n,m,l,u:n-m-l};
+}
+
+/* ---------- grading ---------- */
+function norm(str, strict){
+  let t = (str||'').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim();
+  if(strict) return t;
+  t = t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()
+       .replace(/&/g,' and ').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+  return t;
+}
+function lev(a,b){
+  const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,j)=>j), cur=new Array(n+1);
+  for(let i=1;i<=m;i++){ cur[0]=i; for(let j=1;j<=n;j++){ cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1)); } [prev,cur]=[cur,prev]; }
+  return prev[n];
+}
+function grade(type, given, answer){
+  if(type==='ga'){
+    const g=(given||'').replace(/\D/g,''); return g===answer ? 'ok' : 'bad';
+  }
+  given = (given||'').replace(/~~/g,'');
+  const a=norm(answer,prefs.strict), g=norm(given,prefs.strict);
+  if(a===g) return 'ok';
+  if(!prefs.strict && a.replace(/\s/g,'')===g.replace(/\s/g,'')) return 'ok';
+  if(!g) return 'bad';
+  const sim = 1 - lev(a,g)/Math.max(a.length,g.length);
+  return (sim>=0.85 && a.length>=6) ? 'close' : 'bad';
+}
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pbar(st){ const m=st.m/st.n*100, l=st.l/st.n*100; return `<div class="pbar"><i class="m" style="width:${m}%"></i><i class="l" style="width:${l}%"></i></div>`; }
+
+/* ---------- session ---------- */
+let S = null; // {mode, setIdx, pool:[{s,i}], round, queue, pos, results, phase, current grades}
+
+function startSession(mode, setIdx){
+  const pool = mode==='all'
+    ? SETS.flatMap((st,s)=>st.entries.map((_,i)=>({s,i})))
+    : SETS[setIdx].entries.map((_,i)=>({s:setIdx,i}));
+  S = {mode, setIdx, pool, round:0, queue:[], pos:0, results:[], phase:'answer', view:'learn'};
+  nextRound();
+}
+function remaining(){ return S.pool.filter(p=>level(p.s,p.i)<2); }
+function nextRound(){
+  let rem = remaining();
+  if(!rem.length){ S.phase='done'; render(); return; }
+  if(prefs.order==='shuffle') rem = shuffle(rem);
+  if(S.mode==='all') rem = rem.slice(0,10);
+  S.round++; S.queue=rem; S.pos=0; S.results=[]; S.phase='answer'; S.grades=null;
+  render();
+}
+function cur(){ const p=S.queue[S.pos]; return {p, e:SETS[p.s].entries[p.i]}; }
+
+function check(giveUp){
+  if(S.phase!=='answer') return;
+  const {p,e} = cur();
+  const grades = {}, given = {};
+  fieldsFor(e).forEach(f=>{
+    const v = giveUp ? '' : ($('#'+f.key)?.value||'');
+    given[f.key]=v; grades[f.key]=grade(f.type,v,f.answer);
+  });
+  const allOk = Object.values(grades).every(g=>g==='ok');
+  S.grades=grades; S.given=given; S.correct=allOk; S.gaveUp=!!giveUp; S.phase='feedback';
+  applyResult(allOk);
+  render();
+}
+function applyResult(ok){
+  const {p} = cur();
+  const before = level(p.s,p.i);
+  setLevel(p.s,p.i, ok ? Math.min(2,before+1) : 0);
+  S.results[S.pos] = ok;
+}
+function override(){
+  if(S.phase!=='feedback' || S.correct) return;
+  const {p} = cur();
+  // undo the miss and count as correct
+  setLevel(p.s,p.i, Math.min(2,(S.lvBefore||0)+1));
+  S.results[S.pos]=true; S.correct=true; S.overridden=true;
+  render();
+}
+function cont(){
+  if(S.phase!=='feedback') return;
+  S.pos++;
+  if(S.pos>=S.queue.length){ S.phase='summary'; render(); return; }
+  S.phase='answer'; S.grades=null; S.overridden=false; render();
+}
+
+/* ---------- views ---------- */
+function renderHome(){
+  let totN=0,totM=0,totL=0;
+  SETS.forEach((_,s)=>{ const st=setStats(s); totN+=st.n; totM+=st.m; totL+=st.l; });
+  const cards = SETS.map((st,s)=>{
+    const x=setStats(s); const done=x.m===x.n;
+    return `<button class="set" data-set="${s}">
+      <span class="badge ${done?'done':''}">${done?'Mastered':x.m+'/'+x.n}</span>
+      <div class="ord">Set ${s+1}</div>
+      <h3>${esc(st.label)}</h3>
+      <div class="meta">#1 – #${x.n} · ${esc(st.entries[0].name)} → ${esc(st.entries[x.n-1].name)}</div>
+      ${pbar(x)}
+    </button>`;
+  }).join('');
+  const all = {n:totN,m:totM,l:totL};
+  $('#app').innerHTML = `
+    <header class="top"><div class="logo">ΓΑ</div><div><h1>Above the Lines</h1><div class="sub">Learn mode · 9 study sets · ${totN} brothers</div></div></header>
+    <div class="hero">
+      <div><div class="big">${Math.round(totM/totN*100)}%</div><div class="lbl">mastered overall</div></div>
+      <div class="bar">${pbar(all)}
+        <div class="legend"><span class="lm">${totM} mastered</span><span class="ll">${totL} learning</span><span>${totN-totM-totL} not studied</span></div>
+      </div>
+    </div>
+    <div class="grid">${cards}
+      <button class="set all" data-all="1">
+        <div class="ord">Mixed</div><h3>All sets</h3>
+        <div class="meta">Rounds of 10 pulled from every set</div>${pbar(all)}
+      </button>
+    </div>
+    <div class="foot"><span>Progress is saved in this browser only.</span><button class="btn ghost small" id="resetAll">Reset all progress</button></div>`;
+  document.querySelectorAll('.set[data-set]').forEach(b=>b.onclick=()=>{ location.hash='set-'+(+b.dataset.set+1); });
+  $('.set[data-all]').onclick=()=>{ location.hash='all'; };
+  $('#resetAll').onclick=()=>confirmBox('Reset all progress?','Every set goes back to "not studied".',()=>{ prog={}; save(); render(); });
+}
+
+function headerHTML(){
+  const title = S.mode==='all' ? 'All sets' : SETS[S.setIdx].label;
+  return `<div class="lhead">
+    <button class="btn ghost small" id="back">← Sets</button>
+    <div class="title">${esc(title)}</div>
+    ${S.phase==='answer'||S.phase==='feedback' ? `<div class="round">Round ${S.round}</div>`:''}
+    <div class="spacer"></div>
+    <div class="tabs">
+      <button data-v="learn" class="${S.view==='learn'?'on':''}">Learn</button>
+      <button data-v="review" class="${S.view==='review'?'on':''}">Review list</button>
+    </div>
+  </div>`;
+}
+function progressHTML(){
+  const segs = S.queue.map((_,k)=>{
+    if(k<S.results.length && S.results[k]!==undefined) return `<i class="${S.results[k]?'ok':'bad'}"></i>`;
+    return `<i class="${k===S.pos?'cur':''}"></i>`;
+  }).join('');
+  const pool=S.pool, m=pool.filter(p=>level(p.s,p.i)>=2).length, l=pool.filter(p=>level(p.s,p.i)<2&&seen(p.s,p.i)).length;
+  return `<div class="progressrow"><div class="segs">${segs}</div>
+    <div class="counts"><span>Question ${Math.min(S.pos+1,S.queue.length)} of ${S.queue.length}</span><span><b style="color:var(--electric-2)">${m}</b> mastered · <b style="color:var(--orange-2)">${l}</b> learning · ${pool.length-m-l} new</span></div></div>`;
+}
+function bindHeader(){
+  $('#back').onclick=()=>{ location.hash=''; };
+  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{ S.view=b.dataset.v; render(); });
+}
+
+function renderQuestion(){
+  const {p,e} = cur();
+  const fb = S.phase==='feedback';
+  const label = S.mode==='all' ? `${SETS[p.s].label}` : `${SETS[p.s].label}`;
+  if(!fb) S.lvBefore = level(p.s,p.i);
+  const fds = fieldsFor(e);
+  const fields = fds.map((f,k)=>{
+    const g = fb ? S.grades[f.key] : '';
+    let verdict = '';
+    if(fb){
+      if(g==='ok') verdict = `<div class="verdict"><b>✓</b> Correct</div>`;
+      else if(g==='close') verdict = `<div class="verdict"><b>≈</b><span>Almost — <span class="ans">${answerHTML(f)}</span></span></div>`;
+      else verdict = `<div class="verdict"><b>✗</b><span>${S.given[f.key]?'':'No answer · '}<span class="ans">${f.type==='ga'?'ΓΑ ':''}${answerHTML(f)}</span></span></div>`;
+    }
+    const val = fb ? esc(S.given[f.key]||'') : '';
+    return `<div class="field ${f.wide?'wide':''} ${g}">
+      <label for="${f.key}"><span class="k">${k+1}</span>${f.label}</label>
+      <input id="${f.key}" data-k="${k}" autocomplete="off" autocapitalize="off" spellcheck="false"
+        ${f.type==='ga'?'inputmode="numeric"':''}
+        placeholder="${fb?'':f.ph}" value="${val}" ${fb?'disabled':''}>
+      ${verdict}
+    </div>`;
+  }).join('');
+  const nBox = fds.length;
+  const boxWord = nBox===1 ? 'Fill in 1 box' : `Fill in all ${nBox} boxes`;
+
+  let resultBox='', extras='';
+  if(fb){
+    const lvNow = level(p.s,p.i);
+    resultBox = S.correct
+      ? `<div class="result good"><div class="ic">⚡</div><div><div class="t">${S.overridden?'Counted as correct':'Nailed it'}</div><div class="s">${lvNow>=2?'Mastered — won’t come up again this set.':'One more correct round to master.'}</div></div></div>`
+      : `<div class="result miss"><div class="ic">🔁</div><div><div class="t">${S.gaveUp?'Here’s the answer':'Not quite'}</div><div class="s">This one comes back next round. ${S.gaveUp?'':'Typo only? Use “I was right”.'}</div></div></div>`;
+    const ch=[];
+    if(e.atl) ch.push(`<span class="chip o">Above the line: <b>${esc(e.atl)}</b></span>`);
+    if(e.note) ch.push(`<span class="chip o"><b>${esc(e.note)}</b></span>`);
+    if(ch.length) extras = `<div class="extras">${ch.join('')}</div>`;
+  }
+  const actions = fb
+    ? `${!S.correct && !S.gaveUp ? '<button class="btn small" id="ovr">I was right</button>':''}
+       <button class="btn primary" id="cont">Continue →</button>
+       <span class="kbd"><kbd>Enter</kbd> to continue</span>`
+    : `<button class="btn primary" id="chk">Check answer</button>
+       <button class="btn ghost" id="dk">Don’t know</button>
+       <span class="kbd"><kbd>Enter</kbd> next box · <kbd>Enter</kbd> on last box checks</span>`;
+
+  return `<div class="card">
+    <div class="qtop"><div class="qnum"><small>${esc(label)}</small>${p.i+1}</div>
+      <div class="qhint">${boxWord}<br><span style="color:var(--dim)">${prefs.strict?'Strict: exact spelling, caps & punctuation':'Caps, punctuation & accents ignored'}</span></div></div>
+    <div class="fields">${fields}</div>
+    ${resultBox}${extras}
+    <div class="actions">${actions}</div>
+  </div>`;
+}
+
+function renderLearn(){
+  let body='';
+  if(S.phase==='answer'||S.phase==='feedback'){
+    body = progressHTML() + renderQuestion();
+  } else if(S.phase==='summary'){
+    const rows = S.queue.map((p,k)=>{
+      const e=SETS[p.s].entries[p.i], lv=level(p.s,p.i);
+      const tag = lv>=2?'<span class="lvl m">Mastered</span>':(S.results[k]?'<span class="lvl l">Familiar</span>':'<span class="lvl l">Still learning</span>');
+      return `<div class="row"><div class="n">${p.i+1}</div><div><div class="nm">${esc(e.name)}</div><div class="sm">${S.mode==='all'?esc(SETS[p.s].label)+' · ':''}${S.results[k]?'✓ correct':'✗ missed'}</div></div>${tag}</div>`;
+    }).join('');
+    const ok = S.results.filter(Boolean).length;
+    const rem = remaining().length;
+    body = `<div class="card sum"><h2>Round ${S.round} done</h2>
+      <p>${ok} / ${S.queue.length} correct this round · ${rem} left to master</p>
+      ${progressBlock()}
+      <div class="list">${rows}</div>
+      <div class="actions"><button class="btn primary" id="nextR">Continue to round ${S.round+1} →</button><span class="kbd"><kbd>Enter</kbd></span></div></div>`;
+  } else if(S.phase==='done'){
+    const nextSet = S.mode==='set' && S.setIdx<SETS.length-1 ? S.setIdx+1 : null;
+    body = `<div class="card sum" style="text-align:center">
+      <div class="confetti">🏆</div><h2>${S.mode==='all'?'Every set mastered':esc(SETS[S.setIdx].label)+' mastered'}</h2>
+      <p>All ${S.pool.length} answered correctly in two separate rounds.</p>
+      <div class="actions" style="justify-content:center">
+        <button class="btn" id="again">Study again from scratch</button>
+        ${nextSet!==null?`<button class="btn orange" id="nextSet">Next: ${esc(SETS[nextSet].label)} →</button>`:''}
+        <button class="btn ghost" id="home">All sets</button>
+      </div></div>`;
+  }
+  return headerHTML() + body;
+}
+function progressBlock(){
+  const pool=S.pool, n=pool.length, m=pool.filter(p=>level(p.s,p.i)>=2).length, l=pool.filter(p=>level(p.s,p.i)<2&&seen(p.s,p.i)).length;
+  return `${pbar({n,m,l})}<div class="legend"><span class="lm">${m} mastered</span><span class="ll">${l} learning</span><span>${n-m-l} new</span></div>`;
+}
+
+function renderReview(){
+  const sets = S.mode==='all' ? SETS.map((_,s)=>s) : [S.setIdx];
+  const html = sets.map(s=>`
+    ${S.mode==='all'?`<h3 style="font-family:'Space Grotesk';margin:18px 0 10px;color:var(--orange)">${esc(SETS[s].label)}</h3>`:''}
+    <div class="rev">${SETS[s].entries.map((e,i)=>`
+      <div class="rcard"><div class="n">${i+1}</div><div>
+        ${fieldsFor(e).map(f=> f.type==='name'
+          ? `<div class="nm">${answerHTML(f)}</div>`
+          : `<div class="ln"><span>${f.type==='ga'?'ΓΑ':esc(f.label)}</span>${answerHTML(f)}</div>`).join('')}
+        ${e.lines.length===1?`<div class="ln" style="color:var(--dim)">Name only — 1 line</div>`:''}
+        ${e.atl||e.note?`<div class="extras">${e.atl?`<span class="chip o">Above the line: <b>${esc(e.atl)}</b></span>`:''}${e.note?`<span class="chip o"><b>${esc(e.note)}</b></span>`:''}</div>`:''}
+      </div></div>`).join('')}</div>`).join('');
+  return headerHTML() + `
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+      <label class="toggle"><input type="checkbox" id="optShuffle" ${prefs.order==='shuffle'?'checked':''}> Shuffle question order</label>
+      <label class="toggle"><input type="checkbox" id="optStrict" ${prefs.strict?'checked':''}> Strict grading (exact caps & punctuation)</label>
+      <span class="spacer"></span>
+      <button class="btn small" id="resetSet">Reset ${S.mode==='all'?'all':'this set'}</button>
+    </div>` + html;
+}
+
+function render(){
+  const h = location.hash.replace('#','');
+  if(!S){ renderHome(); return; }
+  $('#app').innerHTML = S.view==='review' ? renderReview() : renderLearn();
+  bindHeader();
+  if(S.view==='review'){
+    $('#optShuffle').onchange=e=>{ prefs.order=e.target.checked?'shuffle':'order'; save(); };
+    $('#optStrict').onchange=e=>{ prefs.strict=e.target.checked; save(); };
+    $('#resetSet').onclick=()=>confirmBox('Reset progress?','These cards go back to "new" and Learn restarts at round 1.',()=>{
+      S.pool.forEach(p=>delete prog[pid(p.s,p.i)]); save(); const v='learn'; startSession(S.mode,S.setIdx); S.view=v; render(); });
+    return;
+  }
+  if(S.phase==='answer'){
+    const inputs=[...document.querySelectorAll('.field input:not(:disabled)')];
+    inputs.forEach((inp,k)=>inp.addEventListener('keydown',ev=>{
+      if(ev.key==='Enter'){ ev.preventDefault(); ev.stopPropagation(); if(k<inputs.length-1) inputs[k+1].focus(); else check(false); }
+    }));
+    if(inputs[0]) inputs[0].focus();
+    $('#chk').onclick=()=>check(false);
+    $('#dk').onclick=()=>check(true);
+  } else if(S.phase==='feedback'){
+    $('#cont').onclick=cont; $('#cont').focus();
+    const o=$('#ovr'); if(o) o.onclick=override;
+  } else if(S.phase==='summary'){
+    $('#nextR').onclick=nextRound; $('#nextR').focus();
+  } else if(S.phase==='done'){
+    $('#again').onclick=()=>{ S.pool.forEach(p=>delete prog[pid(p.s,p.i)]); save(); startSession(S.mode,S.setIdx); };
+    const ns=$('#nextSet'); if(ns) ns.onclick=()=>{ location.hash='set-'+(S.setIdx+2); };
+    $('#home').onclick=()=>{ location.hash=''; };
+  }
+}
+
+function confirmBox(title,msg,onYes){
+  $('#modal').innerHTML=`<div class="modal"><div class="box"><h3>${esc(title)}</h3><p>${esc(msg)}</p>
+    <div class="actions" style="margin:0"><button class="btn orange" id="yes">Reset</button><button class="btn ghost" id="no">Cancel</button></div></div></div>`;
+  $('#no').onclick=()=>$('#modal').innerHTML='';
+  $('#yes').onclick=()=>{ $('#modal').innerHTML=''; onYes(); };
+}
+
+/* ---------- routing ---------- */
+function route(){
+  const h = location.hash.replace('#','');
+  let m = h.match(/^set-(\d)$/);
+  if(m && +m[1]>=1 && +m[1]<=SETS.length){ startSession('set', +m[1]-1); return; }
+  if(h==='all'){ startSession('all'); return; }
+  S=null; render(); window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', route);
+document.addEventListener('keydown', ev=>{
+  if(ev.key!=='Enter' || !S || S.view!=='learn') return;
+  if(document.activeElement && document.activeElement.tagName==='BUTTON') return; // button handles itself
+  if(S.phase==='feedback'){ ev.preventDefault(); cont(); }
+  else if(S.phase==='summary'){ ev.preventDefault(); nextRound(); }
+});
+route();
+</script>
+</body>
+</html>
