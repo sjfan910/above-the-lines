@@ -2,6 +2,8 @@
 
 Quizlet Learn-style study sets (First 10 → Ninth 10). Each card shows only the number; fill in one box per line from the doc (name, year & major, hometown, title(s), ΓΑ number). Missed cards repeat until each one is right in two separate rounds.
 
+History Sheets #1–#4 are laid out like the printed pages with fill-in boxes where the text sits. Full sheet mode blanks every line; Key facts mode blanks names, dates and numbers.
+
 The study content is encrypted (AES-256-GCM, key derived from the password with PBKDF2-SHA256). The page asks for the password and decrypts in the browser; nothing readable is stored in this repo.
 
 ## Rebuilding after an edit
