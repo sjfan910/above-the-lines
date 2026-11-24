@@ -13,3 +13,7 @@ The plain app lives in `src/app.html`, which is git-ignored and must never be co
 ```
 ATL_PASSWORD='<password>' node tools/encrypt.mjs src/app.html index.html
 ```
+
+## Accounts & sync
+
+After unlocking, each person enters their name; a returning name is matched ("Is this you?"). Progress is stored per account in Upstash Redis through `api/atl.js` and syncs across devices. Requests need a token that exists only inside the encrypted app; `api/_auth.json` holds hashes only. `#admin` lists accounts (needs the admin code).

@@ -18,7 +18,17 @@ const base = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2'
 const key = await crypto.subtle.deriveKey(
   { name: 'PBKDF2', salt, iterations: ITER, hash: 'SHA-256' },
   base, { name: 'AES-GCM', length: 256 }, false, ['encrypt']);
-const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(readFileSync(srcPath, 'utf8'))));
+// API token: derived from the password, placed only inside the encrypted app; the repo keeps just its hash.
+const { pbkdf2Sync, createHash } = await import('node:crypto');
+const apiToken = pbkdf2Sync(password, 'atl-api-token-v1', 300000, 32, 'sha256').toString('hex');
+let appHtml = readFileSync(srcPath, 'utf8');
+if (!appHtml.includes('__ATL_API_TOKEN__')) { console.error('App is missing the __ATL_API_TOKEN__ placeholder'); process.exit(1); }
+appHtml = appHtml.replaceAll('__ATL_API_TOKEN__', apiToken);
+const authPath = new URL('../api/_auth.json', import.meta.url);
+const auth = JSON.parse(readFileSync(authPath, 'utf8'));
+auth.tokenHash = createHash('sha256').update(apiToken).digest('hex');
+writeFileSync(authPath, JSON.stringify(auth, null, 2) + '\n');
+const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(appHtml)));
 
 const payload = JSON.stringify({ v: 1, iter: ITER, salt: b64(salt), iv: b64(iv), ct: b64(ct) });
 
@@ -83,8 +93,11 @@ const P = ${payload};
 const KEY = 'atl-key-v1';
 const u8 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const b64 = a => btoa(String.fromCharCode(...new Uint8Array(a)));
+// Wait until this page has fully parsed: replacing it earlier leaves the password box on screen.
+const ready = new Promise(r => document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', () => setTimeout(r, 0), {once:true}) : setTimeout(r, 0));
 async function open(key){
   const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:u8(P.iv)}, key, u8(P.ct));
+  await ready;
   const html = new TextDecoder().decode(pt);
   document.open(); document.write(html); document.close();
 }
@@ -112,6 +125,7 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
     const raw = await crypto.subtle.exportKey('raw', key);
     const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:u8(P.iv)}, key, u8(P.ct)); // throws on wrong password
     if (remember) { try { localStorage.setItem(KEY, b64(raw)); } catch (_) {} }
+    await ready;
     document.open(); document.write(new TextDecoder().decode(pt)); document.close();
   } catch (e) {
     go.disabled = false; go.textContent = 'Unlock';
