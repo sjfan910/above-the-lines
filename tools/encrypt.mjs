@@ -1,10 +1,42 @@
-// Builds the password-protected index.html from the plain app.
-// Usage: ATL_PASSWORD=... node tools/encrypt.mjs src/app.html index.html
+// Builds index.html from the plain app.
+// Usage: ATL_PASSWORD=... node tools/encrypt.mjs src/app.html index.html                  (password + accounts)
+//        ATL_OFFLINE=1 ATL_PASSWORD=... node tools/encrypt.mjs src/app.html offline.html   (password, this device only)
+//        ATL_NO_PASSWORD=1 node tools/encrypt.mjs src/app.html index.html                (open: no password, no sign-in)
 // The plain app (src/) is git-ignored and must never be committed.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { webcrypto as crypto } from 'node:crypto';
 
 const [, , srcPath = 'src/app.html', outPath = 'index.html'] = process.argv;
+
+// Link-preview image, description and icons, used by every version of the page.
+const HEAD_TAGS = `<meta name="description" content="Learn-mode study sets for the brothers list and History Sheets #1–4.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://above-the-lines.vercel.app/">
+<meta property="og:title" content="Above the Lines">
+<meta property="og:description" content="Learn-mode study sets for the brothers list and History Sheets #1–4.">
+<meta property="og:image" content="https://above-the-lines.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Above the Lines: history sheets you fill in right where the text sits">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Above the Lines">
+<meta name="twitter:image" content="https://above-the-lines.vercel.app/og.png">
+<meta name="theme-color" content="#0b1238">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">`;
+
+// ATL_NO_PASSWORD=1: publish the app openly — no password screen, no name sign-in, progress stays on each device.
+// (Temporary switch. Rebuild without it to bring the password and accounts back.)
+if (process.env.ATL_NO_PASSWORD) {
+  let html = readFileSync(srcPath, 'utf8');
+  if (!html.includes('__ATL_API_TOKEN__')) { console.error('App is missing the __ATL_API_TOKEN__ placeholder'); process.exit(1); }
+  html = html.replaceAll('__ATL_API_TOKEN__', '__OFFLINE__')
+             .replace('<title>Above the Lines · Learn</title>', '<title>Above the Lines</title>\n<meta name="robots" content="noindex, nofollow">\n' + HEAD_TAGS);
+  writeFileSync(outPath, html);
+  console.log('Wrote', outPath, html.length, 'bytes (no password, no sign-in)');
+  process.exit(0);
+}
+
 const password = process.env.ATL_PASSWORD;
 if (!password) { console.error('Set ATL_PASSWORD'); process.exit(1); }
 
@@ -23,11 +55,16 @@ const { pbkdf2Sync, createHash } = await import('node:crypto');
 const apiToken = pbkdf2Sync(password, 'atl-api-token-v1', 300000, 32, 'sha256').toString('hex');
 let appHtml = readFileSync(srcPath, 'utf8');
 if (!appHtml.includes('__ATL_API_TOKEN__')) { console.error('App is missing the __ATL_API_TOKEN__ placeholder'); process.exit(1); }
-appHtml = appHtml.replaceAll('__ATL_API_TOKEN__', apiToken);
-const authPath = new URL('../api/_auth.json', import.meta.url);
-const auth = JSON.parse(readFileSync(authPath, 'utf8'));
-auth.tokenHash = createHash('sha256').update(apiToken).digest('hex');
-writeFileSync(authPath, JSON.stringify(auth, null, 2) + '\n');
+if (process.env.ATL_OFFLINE) {
+  // Offline copy: no server token, so the app runs on this device only (no sign-in, no sync).
+  appHtml = appHtml.replaceAll('__ATL_API_TOKEN__', '__OFFLINE__');
+} else {
+  appHtml = appHtml.replaceAll('__ATL_API_TOKEN__', apiToken);
+  const authPath = new URL('../api/_auth.json', import.meta.url);
+  const auth = JSON.parse(readFileSync(authPath, 'utf8'));
+  auth.tokenHash = createHash('sha256').update(apiToken).digest('hex');
+  writeFileSync(authPath, JSON.stringify(auth, null, 2) + '\n');
+}
 const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(appHtml)));
 
 const payload = JSON.stringify({ v: 1, iter: ITER, salt: b64(salt), iv: b64(iv), ct: b64(ct) });
@@ -39,21 +76,7 @@ const gate = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Above the Lines</title>
-<meta name="description" content="Learn-mode study sets for the brothers list and History Sheets #1–4.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://above-the-lines.vercel.app/">
-<meta property="og:title" content="Above the Lines">
-<meta property="og:description" content="Learn-mode study sets for the brothers list and History Sheets #1–4.">
-<meta property="og:image" content="https://above-the-lines.vercel.app/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Above the Lines: history sheets you fill in right where the text sits">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Above the Lines">
-<meta name="twitter:image" content="https://above-the-lines.vercel.app/og.png">
-<meta name="theme-color" content="#0b1238">
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+${HEAD_TAGS}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
